@@ -1,0 +1,6 @@
+version: 1.0
+name: FPM
+description: FPM server tests
+sandboxes: sandboxes.yaml
+servers: servers/
+tests: tests/

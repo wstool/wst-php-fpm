@@ -1,0 +1,35 @@
+# Default sandboxes configuration file.
+#
+# This is merged with other sandbox configuration in the following order:
+# 1. command line flags
+# 2. sandbox configuration file passed from command line
+# 3. user configuration for servers taken from ~/wst.yaml
+# 4. user common configuration taken from ~/wst.yaml
+# 5. project configuration for servers
+# 6. project common configuration (this file)
+
+# Common configuration that is the same for all sandboxes (usually defined in project)
+# local:
+#   actions:
+#     start:
+#       command:
+#         path: /path/to/executable <args>
+#     stop:
+#       signal: SIGTERM
+#     reload:
+#       signal: SIGUSR2
+
+# Local sandbox configuration
+# local: ~
+
+# Docker sandbox configuration
+#docker:
+#  registry:
+#    auth:
+#      username: <username>
+#      password: <password>
+
+# Kubernetes sandbox configuration
+#kubernetes:
+#  auth:
+#    kubeconfig: /path/to/kubeconfig

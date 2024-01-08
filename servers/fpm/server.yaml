@@ -1,0 +1,29 @@
+default: default/
+
+environment:
+  variables:
+    FPM_BINARY: php-fpm
+
+sandboxes:
+  common:
+    actions:
+      start:
+        command:
+          executable: {{ .Env.FPM_BINARY }}
+          args: -c {{ .Config.php_ini }} -F -y {{ Config.fpm_conf }}
+      stop:
+        signal: SIGTERM
+      reload:
+        signal: SIGUSR2
+
+expectations:
+  prefix: fpm
+  variables:
+    executable: {{ .Env.FPM_BINARY }}
+  items:
+    server-start:
+      output:
+        order: fixed
+        messages:
+          - '{{ .Log.date }} NOTICE: {{ .Log.executable }} is running, pid {{ .Log.pid }}"'
+          - "{{ .Log.date }} NOTICE: ready to handle connections"
