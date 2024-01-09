@@ -28,7 +28,7 @@ actions:
       path: /index.php
       method: GET # default
       response:
-         headers: {}
+        headers: {}
         body: 1
   - expect/fpm:
       output:

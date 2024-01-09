@@ -1,8 +1,8 @@
 version: 1.0
 name: FPM
-description: FPM server tests
+description: FPM server spec
 sandboxes: sandboxes.yaml
 servers: servers/
-tests:
+spec:
   workspace: workspace/
-  suite: tests/
+  instances: spec/instances
