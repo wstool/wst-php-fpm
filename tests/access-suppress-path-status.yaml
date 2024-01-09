@@ -21,18 +21,16 @@ services:
 
   nginx: {}
 
-requests:
-  - request:
-      service: nginx
+actions:
+  - start
+  - expect/fpm/server-start
+  - request/nginx:
       path: /index.php
       method: GET # default
-    result:
       response:
-        headers: {}
+         headers: {}
         body: 1
-      expectations:
-        fpm:
-          - server-start
-          - output:
-              messages:
-                - '{{ .Log.date }} /index.php"'
+  - expect/fpm:
+      output:
+        messages:
+          - '{{ .Log.date }} /index.php"'
