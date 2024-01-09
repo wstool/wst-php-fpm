@@ -1,0 +1,24 @@
+default: default/
+
+environment:
+  variables:
+    HTTPD_BINARY: httpd
+    HTTPD_MODULES_DIR: /usr/lib/apache2/modules
+
+configs:
+  httpd_conf:
+    file: config/fpm.conf
+    parameters:
+      proxy_type: handler
+
+sandboxes:
+  common:
+    actions:
+      start:
+        command:
+          executable: {{ .Env.HTTPD_BINARY }}
+          args: -DFOREGROUND -f  {{ Config.httpd_conf }}
+      stop:
+        signal: SIGTERM
+      reload:
+        signal: SIGUSR2

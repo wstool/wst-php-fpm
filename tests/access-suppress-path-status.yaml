@@ -1,0 +1,23 @@
+scripts:
+  index.php: |
+    <?php
+    echo 1;
+
+services:
+  fpm:
+    server: fpm # optional as server is a key
+    scripts: true # optional as it defaults to true - it can also be an array
+    sandbox: local
+    configs:
+      fpm_conf:
+        parameters_overwrite: false # default false to just add parameters
+        parameters:
+          pm.process_idle_timeout: 1m
+          pm.max_requests: 500
+          pm.status_path: /status
+          access.log: /dev/stderr
+          access.suppress_path[]: /status?json
+      php_ini: {}
+
+  nginx: {}
+

@@ -3,4 +3,6 @@ name: FPM
 description: FPM server tests
 sandboxes: sandboxes.yaml
 servers: servers/
-tests: tests/
+tests:
+  workspace: workspace/
+  suite: tests/

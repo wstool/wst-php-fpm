@@ -1,0 +1,23 @@
+default: default/
+
+environment:
+  variables:
+    NGINX_BINARY: nginx
+
+configs:
+  nginx_conf:
+    file: config/nginx.conf
+  fastcgi_params:
+    file: config/fastcgi_params
+
+sandboxes:
+  common:
+    actions:
+      start:
+        command:
+          executable: {{ .Env.NGINX_BINARY }}
+          args: -DFOREGROUND -f  {{ Config.httpd_conf }}
+      stop:
+        signal: SIGTERM
+      reload:
+        signal: SIGUSR2

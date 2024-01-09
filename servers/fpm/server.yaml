@@ -4,6 +4,20 @@ environment:
   variables:
     FPM_BINARY: php-fpm
 
+configs:
+  fpm_conf:
+    file: config/fpm.conf
+    parameters:
+      global_options:
+        error_log: /dev/stderr
+      pool_options:
+        pm: static
+        pm.max_children: 2
+        catch_workers_output: yes
+  php_ini:
+    file: config/php.ini
+    parameters: {}
+
 sandboxes:
   common:
     actions:
