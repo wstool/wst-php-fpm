@@ -31,7 +31,6 @@ sandboxes:
         signal: SIGUSR2
 
 expectations:
-  prefix: fpm
   variables:
     executable: {{ .Env.FPM_BINARY }}
   items:
