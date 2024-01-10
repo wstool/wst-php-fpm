@@ -46,7 +46,8 @@ actions:
         active_processes: 1
   - parallel:
       - expect/fpm/access-log:
-          path: '/index.php'
-      - expect/nginx/access-log:
-          path: '/index.php'
+          path: '/status?json'
+      - not:
+          expect/nginx/access-log:
+            path: '/status?json'
 
