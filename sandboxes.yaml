@@ -7,6 +7,9 @@
 # 4. user common configuration taken from ~/wst.yaml
 # 5. project configuration for servers
 # 6. project common configuration (this file)
+#
+# The order is first applied on common sandbox configuration and then on the specific sandbox configuration. Those
+# configurations are then merged.
 
 # Common configuration that is the same for all sandboxes (usually defined in project)
 # local:
@@ -23,13 +26,15 @@
 # local: ~
 
 # Docker sandbox configuration
-#docker:
+docker:
+  reload: false
 #  registry:
 #    auth:
 #      username: <username>
 #      password: <password>
 
 # Kubernetes sandbox configuration
-#kubernetes:
+kubernetes:
+  reload: false
 #  auth:
 #    kubeconfig: /path/to/kubeconfig

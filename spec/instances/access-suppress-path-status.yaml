@@ -25,12 +25,28 @@ actions:
   - start
   - expect/fpm/server-start
   - request/nginx:
+      id: index # defaults to last, so it can be checked by next response expectation
       path: /index.php
       method: GET # default
+  - expect:
       response:
+        request: index # request ID - defaults to last
         headers: {}
         body: 1
-  - expect/fpm:
-      output:
-        messages:
-          - '{{ .Log.date }} /index.php"'
+  - parallel:
+      - expect/fpm/access-log:
+          path: '/index.php'
+      - expect/nginx/access-log:
+          path: '/index.php'
+  - request/nginx:
+      path: /status?json
+  - expect/fpm/status:
+      format: json
+      fields:
+        active_processes: 1
+  - parallel:
+      - expect/fpm/access-log:
+          path: '/index.php'
+      - expect/nginx/access-log:
+          path: '/index.php'
+

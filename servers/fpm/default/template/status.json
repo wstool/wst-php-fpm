@@ -1,0 +1,5 @@
+{
+{{- range $name, $value := .Parameters.fields -}}
+"{{- replace "_" " " $name -}}":{{- (if (isNumber $value) $value (printf "\"%s\"" $value)) -}}
+{{- end -}}
+}

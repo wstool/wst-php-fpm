@@ -7,17 +7,57 @@ environment:
 configs:
   nginx_conf:
     file: config/nginx.conf
+    parameters:
+      worker_connections: 1024
+      global_directives: {}
+      http_directives: {}
+      server_directives: {}
+      root_location_directives: {}
+      extra_locations: []
   fastcgi_params:
     file: config/fastcgi_params
+    parameters:
+      QUERY_STRING: $query_string
+      REQUEST_METHOD: $request_method
+      CONTENT_TYPE: $content_type
+      CONTENT_LENGTH: $content_length
+      SCRIPT_FILENAME: $document_root$fastcgi_script_name
+      SCRIPT_NAME: $fastcgi_script_name
+      REQUEST_URI: $request_uri
+      DOCUMENT_URI: $document_uri
+      DOCUMENT_ROOT: $document_root
+      SERVER_PROTOCOL: $server_protocol
+      REQUEST_SCHEME: $scheme
+      HTTPS: $https if_not_empty
+      GATEWAY_INTERFACE: CGI/1.1
+      SERVER_SOFTWARE: nginx/$nginx_version
+      REMOTE_ADDR: $remote_addr
+      REMOTE_PORT: $remote_port
+      SERVER_ADDR: $server_addr
+      SERVER_PORT: $server_port
+      SERVER_NAME: $server_name
+      # PHP only, required if PHP was built with --enable-force-cgi-redirect
+      REDIRECT_STATUS: 200
 
 sandboxes:
   common:
-    actions:
+    events:
       start:
         command:
-          executable: {{ .Env.NGINX_BINARY }}
+          executable: { { .Env.NGINX_BINARY } }
           args: -DFOREGROUND -f  {{ Config.httpd_conf }}
       stop:
         signal: SIGTERM
       reload:
         signal: SIGUSR2
+
+expectations:
+  access-log:
+    parameters:
+      method: 'GET'
+      path: '/'
+      status: 200
+    output:
+      type: stdout # default is any
+      messages:
+        - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'

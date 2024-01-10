@@ -1,0 +1,7 @@
+<\?xml version="1.0" \?>
+<status>
+{{ range $name, $value := .Parameters.fields }}
+{{- $tag := replace "_" "-" $name -}}
+<{{ $tag }}>{{ $value }}</{{ $tag }}>
+{{ end }}
+</status>
