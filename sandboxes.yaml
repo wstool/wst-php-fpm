@@ -25,6 +25,12 @@
 # Local sandbox configuration
 # local: ~
 
+# Container sandbox is a common sandbox for docker and kubernetes
+container:
+  reload: false
+  # image:
+  #   name: image/name:tag
+
 # Docker sandbox configuration
 docker:
   reload: false

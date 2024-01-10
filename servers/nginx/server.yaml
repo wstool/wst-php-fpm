@@ -44,7 +44,7 @@ sandboxes:
     events:
       start:
         command:
-          executable: { { .Env.NGINX_BINARY } }
+          executable: '{{ .Env.NGINX_BINARY }}'
           args: -DFOREGROUND -f  {{ Config.httpd_conf }}
       stop:
         signal: SIGTERM

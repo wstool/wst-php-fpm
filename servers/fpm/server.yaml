@@ -25,7 +25,7 @@ sandboxes:
     events:
       start:
         command:
-          executable: { { .Env.FPM_BINARY } }
+          executable: '{{ .Env.FPM_BINARY }}'
           args: -c {{ .Config.php_ini }} -F -y {{ Config.fpm_conf }}
       stop:
         signal: SIGTERM
