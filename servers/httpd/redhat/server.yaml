@@ -1,0 +1,9 @@
+extends: ../default/
+
+parameters:
+  httpd_binary: httpd
+  httpd_modules: /usr/lib/httpd/modules/
+
+sandboxes:
+  container:
+    available: false

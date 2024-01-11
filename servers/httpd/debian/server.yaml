@@ -1,0 +1,9 @@
+extends: ../default/
+
+parameters:
+  httpd_binary: apache2
+  httpd_modules: /usr/lib/apache2/modules/
+
+sandboxes:
+  container:
+    image: 'httpd:2.4'

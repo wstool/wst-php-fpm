@@ -1,9 +1,8 @@
 default: default/
 
-environment:
-  variables:
-    HTTPD_BINARY: httpd
-    HTTPD_MODULES_DIR: /usr/lib/apache2/modules
+parameters:
+  httpd_binary: /usr/local/apache2/bin/httpd
+  httpd_modules: /usr/local/apache2/modules
 
 configs:
   httpd_conf:
@@ -16,7 +15,7 @@ sandboxes:
     events:
       start:
         command:
-          executable: {{ .Env.HTTPD_BINARY }}
+          executable: {{ .Parameters.httpd_binary }}
           args: -DFOREGROUND -f  {{ Config.httpd_conf }}
       stop:
         signal: SIGTERM

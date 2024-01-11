@@ -1,9 +1,7 @@
-project:
-  default: default/
+servers: '*/'
 
-environment:
-  variables:
-    FPM_BINARY: php-fpm
+parameters:
+  fpm_binary: php-fpm
 
 configs:
   fpm_conf:
@@ -15,7 +13,7 @@ configs:
         pm: static
         pm.max_children: 2
         catch_workers_output: yes
-        access.format: '"\\"%m %r\\" %s"'
+        access.format: '"\"%m %r\" %s"'
   php_ini:
     file: config/php.ini
     parameters: { }
@@ -25,7 +23,7 @@ sandboxes:
     events:
       start:
         command:
-          executable: '{{ .Env.FPM_BINARY }}'
+          executable: '{{ .Parameters.fpm_binary }}'
           args: -c {{ .Config.php_ini }} -F -y {{ Config.fpm_conf }}
       stop:
         signal: SIGTERM
@@ -33,15 +31,15 @@ sandboxes:
         signal: SIGUSR2
 
 expectations:
-  server-start:
+  server_start:
     output:
       order: fixed
       template: true # default
-      match: 'regexp'
+      match: 'exact'
       messages:
-        - '{{ .Pattern.date }} NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'
-        - "{{ .Pattern.date }} NOTICE: ready to handle connections"
-  access-log:
+        - 'NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'
+        - 'NOTICE: ready to handle connections'
+  access_log:
     parameters:
       method: 'GET'
       path: '/'

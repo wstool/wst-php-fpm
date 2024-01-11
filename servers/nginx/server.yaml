@@ -1,8 +1,7 @@
 default: default/
 
-environment:
-  variables:
-    NGINX_BINARY: nginx
+parameters:
+  nginx_binary: nginx
 
 configs:
   nginx_conf:
@@ -44,7 +43,7 @@ sandboxes:
     events:
       start:
         command:
-          executable: '{{ .Env.NGINX_BINARY }}'
+          executable: '{{ .Parameters.nginx_binary }}'
           args: -DFOREGROUND -f  {{ Config.httpd_conf }}
       stop:
         signal: SIGTERM

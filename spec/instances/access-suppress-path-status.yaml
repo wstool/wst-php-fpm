@@ -23,7 +23,7 @@ services:
 
 actions:
   - start
-  - expect/fpm/server-start
+  - expect/fpm/server_start
   - request/nginx:
       id: index # defaults to last, so it can be checked by next response expectation
       path: /index.php
@@ -34,9 +34,9 @@ actions:
         headers: {}
         body: 1
   - parallel:
-      - expect/fpm/access-log:
+      - expect/fpm/access_log:
           path: '/index.php'
-      - expect/nginx/access-log:
+      - expect/nginx/access_log:
           path: '/index.php'
   - request/nginx:
       path: /status?json
@@ -45,9 +45,9 @@ actions:
       fields:
         active_processes: 1
   - parallel:
-      - expect/fpm/access-log:
+      - expect/fpm/access_log:
           path: '/status?json'
       - not:
-          expect/nginx/access-log:
+          expect/nginx/access_log:
             path: '/status?json'
 
