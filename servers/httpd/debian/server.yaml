@@ -1,9 +1,6 @@
-extends: ../default/
+extends: httpd
+name: httpd/debian # this is default added when
 
 parameters:
   httpd_binary: apache2
   httpd_modules: /usr/lib/apache2/modules/
-
-sandboxes:
-  container:
-    image: 'httpd:2.4'

@@ -1,4 +1,5 @@
-extends: ../default/
+extends: nginx
+name: nginx/redhat
 
 sandboxes:
   container:

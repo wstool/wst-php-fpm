@@ -12,7 +12,7 @@
 # configurations are then merged.
 
 # Common configuration that is the same for all sandboxes (usually defined in project)
-# local:
+# common:
 #   actions:
 #     start:
 #       command:
@@ -42,5 +42,5 @@ docker:
 # Kubernetes sandbox configuration
 kubernetes:
   reload: false
-#  auth:
-#    kubeconfig: /path/to/kubeconfig
+  auth:
+    kubeconfig: ~/.kube/config

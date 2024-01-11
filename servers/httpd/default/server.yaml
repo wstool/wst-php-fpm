@@ -1,4 +1,4 @@
-default: default/
+name: httpd
 
 parameters:
   httpd_binary: /usr/local/apache2/bin/httpd
@@ -21,3 +21,5 @@ sandboxes:
         signal: SIGTERM
       reload:
         signal: SIGUSR2
+  container:
+    image: 'httpd:2.4'

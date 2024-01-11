@@ -1,5 +1,2 @@
-extends: ../default/
-
-sandboxes:
-  container:
-    image: 'nginx:latest'
+extends: nginx
+name: nginx/debian

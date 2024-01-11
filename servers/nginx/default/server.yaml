@@ -1,4 +1,4 @@
-default: default/
+name: nginx
 
 parameters:
   nginx_binary: nginx
@@ -49,6 +49,8 @@ sandboxes:
         signal: SIGTERM
       reload:
         signal: SIGUSR2
+  container:
+    image: 'nginx:latest'
 
 expectations:
   access-log:

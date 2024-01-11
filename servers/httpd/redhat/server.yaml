@@ -1,4 +1,5 @@
-extends: ../default/
+extends: httpd
+name: httpd/redhat
 
 parameters:
   httpd_binary: httpd
