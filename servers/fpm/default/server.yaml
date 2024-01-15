@@ -36,7 +36,7 @@ expectations:
   server_start:
     output:
       order: fixed
-      template: true # default
+      render_template: true # default
       match: 'exact'
       messages:
         - 'NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'

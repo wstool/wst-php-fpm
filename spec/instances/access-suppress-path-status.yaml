@@ -10,7 +10,7 @@ services:
     sandbox: local # local is default sandbox - this can be overwritten in different config
     configs:
       fpm_conf:
-        parameters_overwrite: false # default false to just add parameters
+        overwrite_parameters: false # default false to just add parameters
         parameters:
           pm.process_idle_timeout: 1m
           pm.max_requests: 500
@@ -50,4 +50,4 @@ actions:
       - not:
           expect/nginx/access_log:
             path: '/status?json'
-
+  - stop

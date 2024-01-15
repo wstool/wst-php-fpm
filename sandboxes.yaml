@@ -27,13 +27,16 @@
 
 # Container sandbox is a common sandbox for docker and kubernetes
 container:
-  reload: false
+  reload:
+    native:
+      event: restart
   # image:
   #   name: image/name:tag
 
 # Docker sandbox configuration
 docker:
-  reload: false
+  reload:
+    native: true
 #  registry:
 #    auth:
 #      username: <username>
@@ -41,6 +44,7 @@ docker:
 
 # Kubernetes sandbox configuration
 kubernetes:
-  reload: false
+  reload:
+    native: true
   auth:
     kubeconfig: ~/.kube/config
