@@ -12,7 +12,12 @@
 # configurations are then merged.
 
 # Common configuration that is the same for all sandboxes (usually defined in project)
-# common:
+common:
+  dirs:
+    conf: /etc
+    script: /var/www
+    run: /run
+
 #   actions:
 #     start:
 #       command:
