@@ -52,13 +52,14 @@ sandboxes:
   container:
     image: 'nginx:latest'
 
-expectations:
-  access-log:
-    parameters:
-      method: 'GET'
-      path: '/'
-      status: 200
-    output:
-      type: stdout # default is any
-      messages:
-        - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'
+actions:
+  expect:
+    access-log:
+      parameters:
+        method: 'GET'
+        path: '/'
+        status: 200
+      output:
+        type: stdout # default is any
+        messages:
+          - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'

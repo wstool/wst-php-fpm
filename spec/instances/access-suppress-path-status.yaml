@@ -47,6 +47,13 @@ actions:
   - parallel:
       - expect/fpm/access_log:
           path: '/status?json'
+      # the above could be also specified as below
+      - expect:
+          service: fpm
+          custom:
+            name: access_log
+            parameters:
+              path: '/status?xml'
       - not:
           expect/nginx/access_log:
             path: '/status?json'

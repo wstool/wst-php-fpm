@@ -32,44 +32,45 @@ sandboxes:
   container:
     image: 'php:fpm'
 
-expectations:
-  server_start:
-    output:
-      order: fixed
-      render_template: true # default
-      match: 'exact'
-      messages:
-        - 'NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'
-        - 'NOTICE: ready to handle connections'
-  access_log:
-    parameters:
-      method: 'GET'
-      path: '/'
-      status: 200
-    output:
-      match: 'exact'
-      messages:
-        - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'
-  status:
-    parameters:
-      fields:
-        pool: '\w+'
-        process_manager: '(static|dynamic|ondemand)'
-        start_time: '\d+\/\w{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s[+-]\d{4}'
-        start_since: '\d+'
-        accepted_conn: '\d+'
-        listen_queue: '\d+'
-        max_listen_queue: '\d+'
-        listen_queue_len: '\d+'
-        idle_processes: '\d+'
-        active_processes: '\d+'
-        total_processes: '\d+'
-        max_active_processes: '\d+'
-        max_children_reached: '\d+'
-        slow_requests: '\d+'
-    response:
-      header:
-        content-type: '{{ include "status-content-type.tpl" . }}'
-      body:
-        match: 'regexp'
-        content: '{{ include "status-body.tpl" . }}'
+actions:
+  expect:
+    server_start:
+      output:
+        order: fixed
+        render_template: true # default
+        match: 'exact'
+        messages:
+          - 'NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'
+          - 'NOTICE: ready to handle connections'
+    access_log:
+      parameters:
+        method: 'GET'
+        path: '/'
+        status: 200
+      output:
+        match: 'exact'
+        messages:
+          - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'
+    status:
+      parameters:
+        fields:
+          pool: '\w+'
+          process_manager: '(static|dynamic|ondemand)'
+          start_time: '\d+\/\w{3}\/\d{4}:\d{2}:\d{2}:\d{2}\s[+-]\d{4}'
+          start_since: '\d+'
+          accepted_conn: '\d+'
+          listen_queue: '\d+'
+          max_listen_queue: '\d+'
+          listen_queue_len: '\d+'
+          idle_processes: '\d+'
+          active_processes: '\d+'
+          total_processes: '\d+'
+          max_active_processes: '\d+'
+          max_children_reached: '\d+'
+          slow_requests: '\d+'
+      response:
+        header:
+          content-type: '{{ include "status-content-type.tpl" . }}'
+        body:
+          match: 'regexp'
+          content: '{{ include "status-body.tpl" . }}'
