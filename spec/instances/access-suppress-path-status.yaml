@@ -1,12 +1,14 @@
-scripts:
-  index.php: |
-    <?php
-    echo 1;
+resources:
+  scripts:
+    index.php: |
+      <?php
+      echo 1;
 
 services:
   fpm:
     server: fpm # optional as server is a key
-    scripts: true # optional as it defaults to true - it can also be an array
+    resources:
+      scripts: true # optional as it defaults to true - it can also be an array
     sandbox: local # local is default sandbox - this can be overwritten in different config
     configs:
       fpm_conf:
