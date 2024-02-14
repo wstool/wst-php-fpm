@@ -16,7 +16,21 @@ configs:
         access.format: '"\"%m %r\" %s"'
   php_ini:
     file: config/php.ini
-    parameters: { }
+    parameters: {}
+
+templates:
+  status.html:
+    file: template/status.html
+  status.json:
+    file: template/status.json
+  status.om:
+    file: template/status.om
+  status.txt:
+    file: template/status.txt
+  status-body.tpl:
+    file: template/status-body.tpl
+  status-content-type.tpl:
+    file: template/status-content-type.tpl
 
 sandboxes:
   common:

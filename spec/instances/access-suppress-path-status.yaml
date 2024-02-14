@@ -31,6 +31,7 @@ actions:
       path: /index.php
       method: GET # default
   - expect:
+      service: nginx
       response:
         request: index # request ID - defaults to last
         headers: {}

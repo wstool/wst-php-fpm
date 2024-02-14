@@ -2,11 +2,10 @@
 #
 # This is merged with other sandbox configuration in the following order:
 # 1. command line flags
-# 2. sandbox configuration file passed from command line
-# 3. user configuration for servers taken from ~/wst.yaml
-# 4. user common configuration taken from ~/wst.yaml
-# 5. project configuration for servers
-# 6. project common configuration (this file)
+# 2. user configuration for servers taken from ~/wst.yaml
+# 3. user common configuration taken from ~/wst.yaml
+# 4. project configuration for servers
+# 5. project common configuration (this file)
 #
 # The order is first applied on common sandbox configuration and then on the specific sandbox configuration. Those
 # configurations are then merged.
