@@ -1,8 +1,9 @@
 version: 1.0
 name: FPM
 description: FPM server specifications for testing PHP-FPM
-sandboxes: sandboxes.yaml
-servers: servers/*/*.yaml
 spec:
-  workspace: workspace/
+  environments: environments.yaml
   instances: spec/instances/*.yaml
+  sandboxes: sandboxes.yaml
+  servers: servers/*/*.yaml
+  workspace: workspace/

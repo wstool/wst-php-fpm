@@ -50,5 +50,3 @@ docker:
 kubernetes:
   reload:
     native: true
-  auth:
-    kubeconfig: ~/.kube/config

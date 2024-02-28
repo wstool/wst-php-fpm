@@ -1,0 +1,9 @@
+environments:
+  local:
+    ports:
+      from: 8500
+      to: 8600
+
+  kubernetes:
+    kubeconfig: ~/.kube/config
+    namespace: default
