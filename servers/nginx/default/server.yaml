@@ -44,11 +44,12 @@ sandboxes:
       start:
         command:
           executable: '{{ .Parameters.nginx_binary }}'
-          args: -DFOREGROUND -f  {{ Config.httpd_conf }}
+          args: ['-DFOREGROUND', '-f', '{{ Config.httpd_conf }}']
       stop:
-        signal: SIGTERM
+        # signal: SIGQUIT # graceful
+        signal: SIGTERM # fast
       reload:
-        signal: SIGUSR2
+        signal: SIGHUP
   container:
     image: 'nginx:latest'
 

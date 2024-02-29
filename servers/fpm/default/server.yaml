@@ -34,11 +34,11 @@ templates:
 
 sandboxes:
   common:
-    events:
+    hooks:
       start:
         command:
           executable: '{{ .Parameters.fpm_binary }}'
-          args: -c {{ .Config.php_ini }} -F -y {{ Config.fpm_conf }}
+          args: ['-c', '{{ .Config.php_ini }}', '-F', '-y', '{{ Config.fpm_conf }}']
       stop:
         signal: SIGTERM
       reload:

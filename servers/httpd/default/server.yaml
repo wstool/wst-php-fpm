@@ -16,7 +16,7 @@ sandboxes:
       start:
         command:
           executable: {{ .Parameters.httpd_binary }}
-          args: -DFOREGROUND -f  {{ Config.httpd_conf }}
+          args: ['-DFOREGROUND' '-f'  '{{ Config.httpd_conf }}']
       stop:
         signal: SIGTERM
       reload:

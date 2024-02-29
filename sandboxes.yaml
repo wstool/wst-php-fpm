@@ -17,7 +17,7 @@ common:
     script: /var/www
     run: /run
 
-#   actions:
+#   hooks:
 #     start:
 #       command:
 #         path: /path/to/executable <args>
@@ -31,16 +31,24 @@ common:
 
 # Container sandbox is a common sandbox for docker and kubernetes
 container:
-  reload:
-    native:
-      event: restart
+  hooks:
+    reload:
+      native:
+        enabled: false
+    restart:
+      native:
+        enable: true
+    start:
+      native: # container start default command
+        enable: true
+    stop:
+      native:
+        enable: true
   # image:
   #   name: image/name:tag
 
 # Docker sandbox configuration
 docker:
-  reload:
-    native: true
 #  registry:
 #    auth:
 #      username: <username>
@@ -48,5 +56,8 @@ docker:
 
 # Kubernetes sandbox configuration
 kubernetes:
-  reload:
-    native: true
+  hooks:
+    restart:
+      native:
+        enable: true
+
