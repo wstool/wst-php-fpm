@@ -3,8 +3,8 @@
 <head><title>PHP-FPM Status Page</title></head>
 <body>
 <table>
-{{ range $name, $value := .Parameters.fields }}
-<tr><th>{{ replace "_" " " $name }}</th><td>{{ $value }}</td></tr>
+{{ range $name, $value := .Parameters.GetObject "fields" }}
+<tr><th>{{ replace "_" " " $name }}</th><td>{{ $value.ToString }}</td></tr>
 {{ end }}
 </table>
 </body>

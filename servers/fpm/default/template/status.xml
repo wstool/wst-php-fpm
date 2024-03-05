@@ -1,7 +1,7 @@
 <\?xml version="1.0" \?>
 <status>
-{{ range $name, $value := .Parameters.fields }}
+{{ range $name, $value := .Parameters.GetObject "fields" }}
 {{- $tag := replace "_" "-" $name -}}
-<{{ $tag }}>{{ $value }}</{{ $tag }}>
+<{{ $tag }}>{{ $value.ToString }}</{{ $tag }}>
 {{ end }}
 </status>

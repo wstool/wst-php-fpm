@@ -15,8 +15,8 @@ sandboxes:
     events:
       start:
         command:
-          executable: {{ .Parameters.httpd_binary }}
-          args: ['-DFOREGROUND' '-f'  '{{ Config.httpd_conf }}']
+          executable: '{{ .Parameters.GetString "httpd_binary" }}'
+          args: ['-DFOREGROUND' '-f'  '{{ Configs.httpd_conf }}']
       stop:
         signal: SIGTERM
       reload:

@@ -1,5 +1,5 @@
 {
-{{- range $name, $value := .Parameters.fields -}}
-"{{- replace "_" " " $name -}}":{{- (if (isNumber $value) $value (printf "\"%s\"" $value)) -}}
+{{- range $name, $value :=, .Parameters.GetObject "fields" -}}
+"{{- replace "_" " " $name -}}":{{- (if ($value.IsNumber) $value.ToNumber (printf "\"%s\"" $value.ToString)) -}}
 {{- end -}}
 }

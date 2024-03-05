@@ -43,8 +43,8 @@ sandboxes:
     events:
       start:
         command:
-          executable: '{{ .Parameters.nginx_binary }}'
-          args: ['-DFOREGROUND', '-f', '{{ Config.httpd_conf }}']
+          executable: '{{ .Parameters.GetString "nginx_binary" }}'
+          args: ['-DFOREGROUND', '-f', '{{ Configs.httpd_conf }}']
       stop:
         # signal: SIGQUIT # graceful
         signal: SIGTERM # fast
@@ -63,4 +63,4 @@ actions:
       output:
         type: stdout # default is any
         messages:
-          - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'
+          - '"{{ .Parameters.GetString "method" }} {{ .Parameters.GetString "path" }}" {{ .Parameters.GetString "status" }}'

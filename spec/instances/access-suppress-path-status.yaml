@@ -33,7 +33,9 @@ services:
           access.suppress_path[]: /status?json
       php_ini: true
 
-  nginx: {}
+  nginx:
+    parameters:
+      service: php
 
 actions:
   - start

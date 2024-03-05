@@ -37,8 +37,8 @@ sandboxes:
     hooks:
       start:
         command:
-          executable: '{{ .Parameters.fpm_binary }}'
-          args: ['-c', '{{ .Config.php_ini }}', '-F', '-y', '{{ Config.fpm_conf }}']
+          executable: '{{ .Parameters.GetString "fpm_binary" }}'
+          args: ['-c', '{{ .Configs.php_ini }}', '-F', '-y', '{{ Configs.fpm_conf }}']
       stop:
         signal: SIGTERM
       reload:
@@ -54,7 +54,7 @@ actions:
         render_template: true # default
         match: 'exact'
         messages:
-          - 'NOTICE: {{ .Service.executable }} is running, pid {{ .Service.pid }}"'
+          - 'NOTICE: {{ .Service.Executable }} is running, pid {{ .Service.Pid }}"'
           - 'NOTICE: ready to handle connections'
     access_log:
       parameters:
@@ -64,7 +64,7 @@ actions:
       output:
         match: 'exact'
         messages:
-          - '"{{ .Parameters.method }} {{ .Parameters.path }}" {{ .Parameters.status }}'
+          - '"{{ .Parameters.GetString "method" }} {{ .Parameters.GetString "path" }}" {{ .Parameters.GetString "status" }}'
     status:
       parameters:
         fields:

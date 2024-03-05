@@ -1,37 +1,37 @@
-# HELP phpfpm_up Could pool {{ .Parameters.fields.pool }} using a {{ .Parameters.fields.process_manager }} PM on PHP-FPM be reached\?
+# HELP phpfpm_up Could pool {{ .Parameters.GetObjectString "fields" "pool" }} using a {{ .Parameters.GetObjectString "fields" "process_manager" }} PM on PHP-FPM be reached\?
 # TYPE phpfpm_up gauge
 phpfpm_up 1
 # HELP phpfpm_start_since The number of seconds since FPM has started\.
 # TYPE phpfpm_start_since counter
-phpfpm_start_since {{ .Parameters.fields.start_since }}
+phpfpm_start_since {{ .Parameters.GetObjectString "fields" "start_since" }}
 # HELP phpfpm_accepted_connections The number of requests accepted by the pool\.
 # TYPE phpfpm_accepted_connections counter
-phpfpm_accepted_connections {{ .Parameters.fields.accepted_conn }}
+phpfpm_accepted_connections {{ .Parameters.GetObjectString "fields" "accepted_conn" }}
 # HELP phpfpm_listen_queue The number of requests in the queue of pending connections\.
 # TYPE phpfpm_listen_queue gauge
-phpfpm_listen_queue {{ .Parameters.fields.listen_queue }}
+phpfpm_listen_queue {{ .Parameters.GetObjectString "fields" "listen_queue" }}
 # HELP phpfpm_max_listen_queue The maximum number of requests in the queue of pending connections since FPM has started\.
 # TYPE phpfpm_max_listen_queue counter
-phpfpm_max_listen_queue {{ .Parameters.fields.max_listen_queue }}
+phpfpm_max_listen_queue {{ .Parameters.GetObjectString "fields" "max_listen_queue" }}
 # TYPE phpfpm_listen_queue_length gauge
 # HELP phpfpm_listen_queue_length The size of the socket queue of pending connections\.
-phpfpm_listen_queue_length {{ .Parameters.fields.listen_queue_len }}
+phpfpm_listen_queue_length {{ .Parameters.GetObjectString "fields" "listen_queue_len" }}
 # HELP phpfpm_idle_processes The number of idle processes\.
 # TYPE phpfpm_idle_processes gauge
-phpfpm_idle_processes {{ .Parameters.fields.idle_processes }}
+phpfpm_idle_processes {{ .Parameters.GetObjectString "fields" "idle_processes" }}
 # HELP phpfpm_active_processes The number of active processes\.
 # TYPE phpfpm_active_processes gauge
-phpfpm_active_processes {{ .Parameters.fields.active_processes }}
+phpfpm_active_processes {{ .Parameters.GetObjectString "fields" "active_processes" }}
 # HELP phpfpm_total_processes The number of idle \+ active processes\.
 # TYPE phpfpm_total_processes gauge
-phpfpm_total_processes {{ .Parameters.fields.total_processes }}
+phpfpm_total_processes {{ .Parameters.GetObjectString "fields" "total_processes" }}
 # HELP phpfpm_max_active_processes The maximum number of active processes since FPM has started\.
 # TYPE phpfpm_max_active_processes counter
-phpfpm_max_active_processes {{ .Parameters.fields.max_active_processes }}
+phpfpm_max_active_processes {{ .Parameters.GetObjectString "fields" "max_active_processes" }}
 # HELP phpfpm_max_children_reached The number of times, the process limit has been reached, when pm tries to start more children \(works only for pm 'dynamic' and 'ondemand'\)\.
 # TYPE phpfpm_max_children_reached counter
-phpfpm_max_children_reached {{ .Parameters.fields.max_children_reached }}
+phpfpm_max_children_reached {{ .Parameters.GetObjectString "fields" "max_children_reached" }}
 # HELP phpfpm_slow_requests The number of requests that exceeded your 'request_slowlog_timeout' value\.
 # TYPE phpfpm_slow_requests counter
-phpfpm_slow_requests {{ .Parameters.fields.slow_requests }}
+phpfpm_slow_requests {{ .Parameters.GetObjectString "fields" "slow_requests" }}
 # EOF
