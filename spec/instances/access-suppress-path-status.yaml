@@ -34,8 +34,11 @@ services:
       php_ini: true
 
   nginx:
-    parameters:
-      service: php
+    requires: [fpm]
+    configs:
+      nginx_conf:
+        parameters:
+          dest_service: php
 
 actions:
   - start
