@@ -1,6 +1,9 @@
 extends: httpd
 name: httpd/redhat
 
+user: apache
+group: apache
+
 parameters:
   httpd_binary: httpd
   httpd_modules: /usr/lib/httpd/modules/

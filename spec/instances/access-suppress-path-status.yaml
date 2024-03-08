@@ -18,27 +18,34 @@ resources:
 
 services:
   fpm:
-    server: fpm # optional as server is a key
+    server:
+      name: fpm
+      sandbox: local # local is default sandbox - this can be overwritten in different config
+      parameters: {} # possibility to overwrite server global parameters
+      configs:
+        fpm_conf:
+          include: true
+          overwrite_parameters: false # default false to just add parameters
+          parameters: # config specific parameters
+            pm.process_idle_timeout: 1m
+            pm.max_requests: 500
+            pm.status_path: /status
+            access.log: /dev/stderr
+            access.suppress_path[]: /status?json
+        php_ini: true # true is default - it sets include to true
     resources:
-      scripts: true # optional as it defaults to true - it can also be an array
-    sandbox: local # local is default sandbox - this can be overwritten in different config
-    configs:
-      fpm_conf:
-        overwrite_parameters: false # default false to just add parameters
-        parameters:
-          pm.process_idle_timeout: 1m
-          pm.max_requests: 500
-          pm.status_path: /status
-          access.log: /dev/stderr
-          access.suppress_path[]: /status?json
-      php_ini: true
+      scripts:
+        index.php: true # optional as it defaults to true
+
 
   nginx:
     requires: [fpm]
-    configs:
-      nginx_conf:
-        parameters:
-          dest_service: php
+    server:
+      name: nginx
+      configs:
+        nginx_conf:
+          parameters:
+            dest_service: php
 
 actions:
   - start

@@ -1,2 +1,5 @@
 extends: nginx
 name: nginx/debian
+
+user: www-data
+group: www-data

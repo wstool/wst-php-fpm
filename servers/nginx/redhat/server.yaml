@@ -1,6 +1,9 @@
 extends: nginx
 name: nginx/redhat
 
+user: nginx
+group: nginx
+
 sandboxes:
   container:
     available: false

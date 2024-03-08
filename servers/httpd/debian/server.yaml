@@ -1,6 +1,9 @@
 extends: httpd
 name: httpd/debian # this is default added when
 
+user: www-data
+group: www-data
+
 parameters:
   httpd_binary: apache2
   httpd_modules: /usr/lib/apache2/modules/
