@@ -1,7 +1,7 @@
 environments:
   local:
     ports:
-      from: 8500
+      from: 8550
       to: 8600
 
   docker:
@@ -40,6 +40,7 @@ services:
 
   nginx:
     requires: [fpm]
+    public: true
     server:
       name: nginx
       configs:

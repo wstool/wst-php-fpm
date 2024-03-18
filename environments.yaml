@@ -1,9 +1,15 @@
 environments:
-  local:
+  common:
     ports:
       from: 8500
       to: 8600
 
+  local: {}
+
+  container: {}
+
   kubernetes:
     kubeconfig: ~/.kube/config
     namespace: default
+
+  docker: {}
