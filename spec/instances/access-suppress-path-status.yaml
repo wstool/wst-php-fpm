@@ -25,7 +25,6 @@ services:
       configs:
         fpm_conf:
           include: true
-          overwrite_parameters: false # default false to just add parameters
           parameters: # config specific parameters
             pm.process_idle_timeout: 1m
             pm.max_requests: 500
