@@ -31,7 +31,8 @@ services:
             pm.status_path: /status
             access.log: /dev/stderr
             access.suppress_path[]: /status?json
-        php_ini: true # true is default - it sets include to true
+        php_ini:
+          include: true
     resources:
       scripts:
         index.php: true # optional as it defaults to true
