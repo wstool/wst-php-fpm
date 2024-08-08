@@ -8,7 +8,7 @@ local: {}
 container: {}
 
 kubernetes:
-  kubeconfig: ~/.kube/config
+  #kubeconfig: ~/.kube/config
   namespace: default
 
 docker: {}
