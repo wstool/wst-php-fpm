@@ -35,7 +35,7 @@ services:
           include: true
     resources:
       scripts:
-        index.php: true # optional as it defaults to true
+        - index.php
 
 
   nginx:
