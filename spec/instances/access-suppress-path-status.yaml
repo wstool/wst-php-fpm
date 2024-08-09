@@ -47,6 +47,8 @@ services:
         nginx_conf:
           parameters:
             dest_service: php
+    resources:
+      scripts: true
 
 actions:
   - start
