@@ -48,7 +48,7 @@ container:
   #   name: image/name:tag
 
 # Docker sandbox configuration
-docker:
+# docker:
 #  registry:
 #    auth:
 #      username: <username>
