@@ -14,7 +14,7 @@ resources:
   scripts:
     index.php: |
       <?php
-      echo 1;
+      echo "test";
 
 services:
   fpm:
@@ -60,7 +60,7 @@ actions:
       response:
         request: index # request ID - defaults to last
         headers: {}
-        body: 1
+        body: test
   - parallel:
       - expect/fpm/access_log:
           path: '/index.php'
