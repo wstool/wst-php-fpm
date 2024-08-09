@@ -5,5 +5,5 @@ spec:
   environments: environments.yaml
   instances: spec/instances/*.yaml
   sandboxes: sandboxes.yaml
-  servers: servers/*/*.yaml
+  servers: servers/*/*/server.yaml
   workspace: workspace/
