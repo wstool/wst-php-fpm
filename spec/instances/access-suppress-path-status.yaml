@@ -62,10 +62,11 @@ actions:
         headers: {}
         body: test
   - parallel:
-      - expect/fpm/access_log:
-          path: '/index.php'
-      - expect/nginx/access_log:
-          path: '/index.php'
+      actions:
+        - expect/fpm/access_log:
+            path: '/index.php'
+        - expect/nginx/access_log:
+            path: '/index.php'
   - request/nginx:
       path: /status?json
   - expect/fpm/status:
@@ -73,16 +74,17 @@ actions:
       fields:
         active_processes: 1
   - parallel:
-      - expect/fpm/access_log:
-          path: '/status?json'
-      # the above could be also specified as below
-      - expect:
-          service: fpm
-          custom:
-            name: access_log
-            parameters:
-              path: '/status?xml'
-      - not:
-          expect/nginx/access_log:
+      actions:
+        - expect/fpm/access_log:
             path: '/status?json'
+        # the above could be also specified as below
+        - expect:
+            service: fpm
+            custom:
+              name: access_log
+              parameters:
+                path: '/status?xml'
+        - not:
+            expect/nginx/access_log:
+              path: '/status?json'
   - stop
