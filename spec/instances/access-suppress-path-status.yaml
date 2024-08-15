@@ -85,7 +85,7 @@ actions:
             custom:
               name: access_log
               parameters:
-                path: '/status?xml'
+                path: '/status?json'
         - not:
             expect/nginx/access_log:
               path: '/status?json'
