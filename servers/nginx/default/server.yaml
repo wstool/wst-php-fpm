@@ -55,7 +55,7 @@ sandboxes:
 
 actions:
   expect:
-    access-log:
+    access_log:
       parameters:
         method: 'GET'
         path: '/'
