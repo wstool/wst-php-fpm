@@ -1,7 +1,7 @@
 common:
   ports:
-    from: 8500
-    to: 8600
+    start: 8500
+    end: 8600
 
 local: {}
 
