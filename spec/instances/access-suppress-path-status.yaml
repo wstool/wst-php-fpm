@@ -87,6 +87,7 @@ actions:
               parameters:
                 path: '/status?json'
         - not:
-            expect/nginx/access_log:
-              path: '/status?json'
+            action:
+              expect/nginx/access_log:
+                path: '/status?json'
   - stop
