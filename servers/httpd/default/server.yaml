@@ -12,7 +12,7 @@ configs:
 
 sandboxes:
   common:
-    events:
+    hooks:
       start:
         command:
           executable: '{{ .Parameters.GetString "httpd_binary" }}'
