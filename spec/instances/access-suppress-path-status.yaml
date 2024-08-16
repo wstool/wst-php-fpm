@@ -1,3 +1,5 @@
+name: access-suppress-path-status
+
 environments:
   local:
     ports:
