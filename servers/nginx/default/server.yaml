@@ -44,7 +44,7 @@ sandboxes:
       start:
         command:
           executable: '{{ .Parameters.GetString "nginx_binary" }}'
-          args: ['-DFOREGROUND', '-f', '{{ Configs.httpd_conf }}']
+          args: ['-c', '{{ .Configs.nginx_conf }}']
       stop:
         # signal: SIGQUIT # graceful
         signal: SIGTERM # fast
