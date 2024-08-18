@@ -48,7 +48,7 @@ services:
       configs:
         nginx_conf:
           parameters:
-            dest_service: php
+            dest_service: fpm
     resources:
       scripts: true
 
