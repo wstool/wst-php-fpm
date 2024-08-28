@@ -18,6 +18,10 @@ resources:
       <?php
       echo "test";
 
+timeouts:
+  action: 5000
+  actions: 15000
+
 services:
   fpm:
     server:
