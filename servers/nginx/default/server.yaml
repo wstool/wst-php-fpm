@@ -78,4 +78,4 @@ actions:
       output:
         type: stdout # default is any
         messages:
-          - '"{{ .Parameters.GetString "method" }} {{ .Parameters.GetString "path" }}" {{ .Parameters.GetString "status" }}'
+          - '"{{ .Parameters.GetString "method" }} {{ .Parameters.GetString "path" }} HTTP/1.1" {{ .Parameters.GetString "status" }}'

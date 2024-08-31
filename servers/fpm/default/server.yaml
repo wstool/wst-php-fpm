@@ -54,7 +54,7 @@ actions:
         render_template: true # default
         match: 'regexp'
         messages:
-          - '\[.*\] NOTICE: {{ .Service.Executable }} is running, pid {{ .Service.Pid }}"'
+          - '\[.*\] NOTICE: fpm is running, pid {{ .Service.Pid }}'
           - '\[.*\] NOTICE: ready to handle connections'
     server_stop:
       output:
@@ -62,7 +62,7 @@ actions:
         render_template: true # default
         match: 'regexp'
         messages:
-          - '\[.*\] NOTICE: Terminating ..."'
+          - '\[.*\] NOTICE: Terminating ...'
           - '\[.*\] NOTICE: exiting, bye-bye!'
     access_log:
       parameters:

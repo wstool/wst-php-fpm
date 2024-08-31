@@ -31,12 +31,12 @@ services:
       configs:
         fpm_conf:
           include: true
-          parameters: # config specific parameters
-            pm.process_idle_timeout: 1m
-            pm.max_requests: 500
-            pm.status_path: /status
-            access.log: /dev/stderr
-            access.suppress_path[]: /status?json
+          parameters:
+            pool_options:
+              pm.process_idle_timeout: 1m
+              pm.status_path: /status
+              access.log: /dev/stderr
+              access.suppress_path[]: /status
         php_ini:
           include: true
     resources:
@@ -80,26 +80,24 @@ actions:
         - expect/nginx/access_log:
             path: '/index.php'
   - request/nginx:
-      path: /status?json
+      path: /status
   - expect/fpm/status:
-      format: json
+      format: txt
       fields:
         active_processes: 1
   - parallel:
       actions:
-        - expect/fpm/access_log:
-            path: '/status?json'
-        # the above could be also specified as below
+        # this a longer form to run custom action - same as above expect/nginx/access_log but with different path
         - expect:
-            service: fpm
+            service: nginx
             custom:
               name: access_log
               parameters:
-                path: '/status?json'
+                path: '/status'
         - not:
             action:
-              expect/nginx/access_log:
-                path: '/status?json'
+              expect/fpm/access_log:
+                path: '/status'
   - stop:
       when: always
   - parallel:
