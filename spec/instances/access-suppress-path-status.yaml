@@ -91,17 +91,17 @@ actions:
 #        active_processes: 1
   - parallel:
       actions:
-        # this a longer form to run custom action - same as above expect/nginx/access_log but with different path
-        - expect:
-            service: nginx
-            custom:
-              name: access_log
-              parameters:
-                path: '/status'
-#        - not:
-#            action:
-#              expect/fpm/access_log:
-#                path: '/status'
+        - expect/nginx/access_log:
+            path: /status
+        - not:
+            action:
+              expect:
+                service: fpm
+                timeout: 500
+                custom:
+                  name: access_log
+                  parameters:
+                    path: '/status'
   - stop:
       when: always
   - parallel:
