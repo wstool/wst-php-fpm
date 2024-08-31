@@ -50,6 +50,7 @@ services:
     server:
       name: nginx
       configs:
+        fastcgi_params: {}
         nginx_conf:
           parameters:
             dest_service: fpm
@@ -58,7 +59,10 @@ services:
 
 actions:
   - start
-  - expect/fpm/server_start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
   - request/nginx:
       id: index # defaults to last, so it can be checked by next response expectation
       path: /index.php
@@ -96,4 +100,10 @@ actions:
             action:
               expect/nginx/access_log:
                 path: '/status?json'
-  - stop
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
