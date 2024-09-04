@@ -1,0 +1,119 @@
+title: Scoreboard atomic copying test
+
+name: scoreboard-atomic-copy
+
+description: |
+  Test to make sure that there is no race in copying scoreboard when used by status
+
+labels: [test, scoreboard, status, nginx]
+
+environments:
+  local:
+    ports:
+      from: 8600
+      to: 8620
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      echo "test";
+    status-poll.php: |
+      <?php
+      $start_time = microtime(true);
+      while (true) {
+        // Check if 3 seconds have passed
+        if (microtime(true) - $start_time > 3) {
+            break;
+        }
+        $json = file_get_contents("http://{{ (.Services.Find "nginx").Address }}/status.php?json&full");
+        $result = json_decode($json);
+        $processes = $result->processes;
+        foreach ($processes as $proc){
+          //a dummy page should take low time
+          if ($proc->{"request duration"} > 1000000) {
+            echo "impossible value found!\n";
+            print_r($proc);
+            echo "\n";
+            die();
+          }
+        }
+      }
+      echo "ok";
+
+
+timeouts:
+  action: 5000
+  actions: 15000
+
+services:
+  fpm:
+    server:
+      name: fpm
+      sandbox: local
+      parameters: {}
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            pool_options:
+              pm: dynamic
+              pm.max_children: 10
+              pm.start_servers: 8
+              pm.min_spare_servers: 1
+              pm.max_spare_servers: 9
+              pm.status_path: /status.php
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            dest_service: fpm
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect:
+      service: nginx
+      response:
+        headers: {}
+        body: test
+  - parallel:
+      actions:
+        - bench/nginx:
+            path: /index.php
+            duration: 3000
+            frequency: 200
+        - request/nginx:
+            id: poll
+            path: /status-poll.php
+  - expect:
+      service: nginx
+      response:
+        request: poll
+        body: ok
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
