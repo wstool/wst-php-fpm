@@ -3,7 +3,10 @@ title: Scoreboard atomic copying test
 name: scoreboard-atomic-copy
 
 description: |
-  Test to make sure that there is no race in copying scoreboard when used by status
+  Test to make sure that there is no race in copying scoreboard when used by status. This was initially developed to
+  test https://github.com/php/php-src/pull/8049 which fixed https://github.com/php/php-src/issues/7931,
+  https://bugs.php.net/bug.php?id=76109 and https://bugs.php.net/bug.php?id=81275. Now it reliably recreate issue
+  https://github.com/php/php-src/issues/13437.
 
 labels: [test, scoreboard, status, nginx]
 
@@ -31,7 +34,7 @@ resources:
         $processes = $result->processes;
         foreach ($processes as $proc){
           //a dummy page should take low time
-          if ($proc->{"request duration"} > 1000000) {
+          if ($proc->{"request uri"} != '/status-poll.php' && $proc->{"request duration"} > 1000000) {
             echo "impossible value found!\n";
             print_r($proc);
             echo "\n";
@@ -102,7 +105,7 @@ actions:
         - bench/nginx:
             path: /index.php
             duration: 3000
-            frequency: 200
+            frequency: 400
         - request/nginx:
             id: poll
             path: /status-poll.php
