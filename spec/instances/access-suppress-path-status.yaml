@@ -85,10 +85,10 @@ actions:
             path: '/index.php'
   - request/nginx:
       path: /status
-#  - expect/fpm/status:
-#      format: txt
-#      fields:
-#        active_processes: 1
+  - expect/fpm/status:
+      format: txt
+      fields:
+        active_processes: 1
   - parallel:
       actions:
         - expect/nginx/access_log:
