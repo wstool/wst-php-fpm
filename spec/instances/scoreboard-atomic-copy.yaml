@@ -80,6 +80,7 @@ services:
         nginx_conf:
           parameters:
             dest_service: fpm
+            access_log: /dev/null
     resources:
       scripts: true
 

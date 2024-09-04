@@ -32,6 +32,8 @@ configs:
   nginx_conf:
     file: config/nginx.conf
     parameters:
+      access_log: /dev/stdout
+      error_log: /dev/stderr
       worker_connections: 1024
       global_directives: {}
       http_directives: {}
