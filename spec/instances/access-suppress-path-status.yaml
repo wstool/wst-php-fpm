@@ -1,4 +1,11 @@
+title: Access log path suppression test
+
 name: access-suppress-path-status
+
+description: |
+  Test for filtering access logs. It asserts that that the `access.suppress_path[]` works as expected.
+
+labels: [test, logs, status, nginx]
 
 environments:
   local:
