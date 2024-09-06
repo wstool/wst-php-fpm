@@ -10,8 +10,8 @@ labels: [test, logs, status, nginx]
 environments:
   local:
     ports:
-      from: 8550
-      to: 8600
+      start: 8500
+      end: 8509
 
   docker:
     name_prefix: wst

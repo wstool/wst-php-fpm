@@ -13,8 +13,8 @@ labels: [test, scoreboard, status, nginx]
 environments:
   local:
     ports:
-      from: 8600
-      to: 8620
+      start: 8510
+      end: 8519
 
 resources:
   scripts:
