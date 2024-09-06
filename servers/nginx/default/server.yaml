@@ -1,8 +1,5 @@
 name: nginx
 
-parameters:
-  nginx_binary: nginx
-
 configs:
   fastcgi_params:
     file: config/fastcgi_params

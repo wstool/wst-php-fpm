@@ -7,3 +7,16 @@ spec:
   sandboxes: sandboxes.yaml
   servers: servers/*/*/server.yaml
   workspace: workspace/
+  defaults:
+    service:
+      sandbox: local
+      server:
+        tag: default
+    timeouts:
+      action: 5000
+      actions: 15000
+    parameters:
+      fpm_binary: php-fpm
+      httpd_binary: /usr/local/apache2/bin/httpd
+      httpd_modules: /usr/local/apache2/modules
+      nginx_binary: nginx

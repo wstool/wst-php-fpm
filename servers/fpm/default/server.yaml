@@ -1,8 +1,5 @@
 name: fpm
 
-parameters:
-  fpm_binary: php-fpm
-
 configs:
   fpm_conf:
     file: config/fpm.conf
