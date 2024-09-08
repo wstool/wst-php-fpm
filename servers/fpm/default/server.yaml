@@ -6,6 +6,7 @@ configs:
     parameters:
       global_options:
         error_log: /dev/stderr
+        #log_level: debug
       pool_options:
         pm: static
         pm.max_children: 2
