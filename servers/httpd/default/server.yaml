@@ -1,5 +1,7 @@
 name: httpd
 
+port: 80
+
 configs:
   httpd_conf:
     file: config/httpd.conf

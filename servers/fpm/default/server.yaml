@@ -1,5 +1,7 @@
 name: fpm
 
+port: 9000
+
 configs:
   fpm_conf:
     file: config/fpm.conf

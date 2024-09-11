@@ -1,5 +1,7 @@
 name: nginx
 
+port: 80
+
 configs:
   fastcgi_params:
     file: config/fastcgi_params
