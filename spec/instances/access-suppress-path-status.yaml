@@ -25,15 +25,10 @@ resources:
       <?php
       echo "test";
 
-timeouts:
-  action: 5000
-  actions: 15000
-
 services:
   fpm:
     server:
       name: fpm
-      sandbox: local # local is default sandbox - this can be overwritten in different config
       parameters: {} # possibility to overwrite server global parameters
       configs:
         fpm_conf:

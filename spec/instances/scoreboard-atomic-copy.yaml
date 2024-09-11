@@ -46,14 +46,13 @@ resources:
 
 
 timeouts:
-  action: 5000
-  actions: 15000
+  action: 8000
+  actions: 20000
 
 services:
   fpm:
     server:
       name: fpm
-      sandbox: local
       parameters: {}
       configs:
         fpm_conf:
