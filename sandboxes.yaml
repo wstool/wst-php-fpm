@@ -30,20 +30,17 @@ common:
 # local: ~
 
 # Container sandbox is a common sandbox for docker and kubernetes
-container:
-  hooks:
-    reload:
-      native:
-        enabled: false
-    restart:
-      native:
-        enable: true
-    start:
-      native: # container start default command
-        enable: true
-    stop:
-      native:
-        enable: true
+#container:
+#  hooks:
+#    reload:
+#      native:
+#        enabled: false
+#    restart:
+#      native:
+#        enable: true
+#    stop:
+#      native:
+#        enable: true
   # image:
   #   name: image/name:tag
 
@@ -55,9 +52,9 @@ container:
 #      password: <password>
 
 # Kubernetes sandbox configuration
-kubernetes:
-  hooks:
-    restart:
-      native:
-        enable: true
+#kubernetes:
+#  hooks:
+#    restart:
+#      native:
+#        enable: true
 
