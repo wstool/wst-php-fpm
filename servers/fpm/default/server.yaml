@@ -38,7 +38,7 @@ sandboxes:
       start:
         command:
           executable: '{{ .Parameters.GetString "fpm_binary" }}'
-          args: ['-c', '{{ .Configs.php_ini }}', '-F', '-y', '{{ .Configs.fpm_conf }}']
+          args: ['-c', '{{ .Configs.php_ini }}', '-F', '-R', '-y', '{{ .Configs.fpm_conf }}']
       stop:
         signal: SIGTERM
       reload:

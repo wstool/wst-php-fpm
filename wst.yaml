@@ -13,8 +13,8 @@ spec:
       server:
         tag: default
     timeouts:
-      action: 5000
-      actions: 15000
+      action: 60000
+      actions: 120000
     parameters:
       fpm_binary: php-fpm
       httpd_binary: /usr/local/apache2/bin/httpd
