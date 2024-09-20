@@ -13,7 +13,7 @@ spec:
       server:
         tag: default
     timeouts:
-      action: 60000
+      action: 10000
       actions: 120000
     parameters:
       fpm_binary: php-fpm
