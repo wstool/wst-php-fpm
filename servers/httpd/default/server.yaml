@@ -21,3 +21,20 @@ sandboxes:
         signal: SIGUSR2
   container:
     image: 'httpd:2.4'
+
+actions:
+  expect:
+    server_start:
+      output:
+        order: fixed
+        render_template: false
+        match: 'regexp'
+        messages:
+          - '.* resuming normal operations'
+    server_stop:
+      output:
+        order: fixed
+        render_template: false
+        match: 'regexp'
+        messages:
+          - '.* caught SIGTERM, shutting down'

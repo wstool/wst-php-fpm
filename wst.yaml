@@ -16,7 +16,13 @@ spec:
       action: 10000
       actions: 120000
     parameters:
+      # FPM params
       fpm_binary: php-fpm
-      httpd_binary: /usr/local/apache2/bin/httpd
-      httpd_modules: /usr/local/apache2/modules
+      # Apache HTTPD params
+      httpd_binary: apache2
+      httpd_modules: /usr/lib/apache2/modules
+      # For local httpd use
+      #httpd_binary: /usr/local/apache2/bin/httpd
+      #httpd_modules: /usr/local/apache2/modules
+      # Nginx params
       nginx_binary: nginx

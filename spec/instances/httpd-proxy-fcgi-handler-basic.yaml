@@ -1,0 +1,93 @@
+title: Apache httpd mod_proxy_fcgi SetHandler basic tests
+
+name: httpd-proxy-fcgi-handler
+
+description: |
+  Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios.
+
+labels: [test, fcgi, httpd]
+
+environments:
+  local:
+    ports:
+      start: 8520
+      end: 8524
+
+  docker:
+    name_prefix: wst
+
+  kubernetes:
+    namespace: default
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      echo $_SERVER['SCRIPT_NAME'];
+    space file.php: |
+      <?php
+      echo $_SERVER['SCRIPT_NAME'];
+
+services:
+  fpm:
+    server:
+      name: fpm
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            pool_options:
+              pm: static
+              pm.max_children: 2
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts:
+        - index.php
+        - space file.php
+
+  httpd:
+    requires: [fpm]
+    public: true
+    server:
+      name: httpd
+      configs:
+        httpd_conf:
+          parameters:
+            dest_service: fpm
+            proxy_type: handler
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/httpd/server_start
+  - request/httpd:
+      path: /index.php
+  - expect:
+      service: httpd
+      response:
+        body: /index.php
+  - request/httpd:
+      path: /index.php/1 2 3
+  - expect:
+      service: httpd
+      response:
+        body: /index.php
+  - request/httpd:
+      path: /space file.php
+  - expect:
+      service: httpd
+      response:
+        body: /space file.php
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/httpd/server_stop
