@@ -29,7 +29,7 @@ resources:
         if (microtime(true) - $start_time > 3) {
             break;
         }
-        $json = file_get_contents("http://{{ (.Services.Find "nginx").Address }}/status.php?json&full");
+        $json = file_get_contents("http://{{ (.Services.Find "nginx").PrivateAddress }}/status.php?json&full");
         $result = json_decode($json);
         $processes = $result->processes;
         foreach ($processes as $proc){
