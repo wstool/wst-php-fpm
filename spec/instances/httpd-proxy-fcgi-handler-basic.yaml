@@ -68,21 +68,18 @@ actions:
         - expect/httpd/server_start
   - request/httpd:
       path: /index.php
-      encode_path: false
   - expect:
       service: httpd
       response:
         body: /index.php
   - request/httpd:
       path: /index.php/1 2 3
-      encode_path: false
   - expect:
       service: httpd
       response:
         body: /index.php
   - request/httpd:
       path: /space file.php
-      encode_path: false
   - expect:
       service: httpd
       response:
