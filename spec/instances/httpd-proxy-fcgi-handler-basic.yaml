@@ -23,8 +23,16 @@ resources:
   scripts:
     index.php: |
       <?php
-      echo $_SERVER['SCRIPT_NAME'];
+      $envs = ['SCRIPT_NAME', 'QUERY_STRING', 'PATH_INFO'];
+      $vals = [];
+      foreach ($envs as $env) {
+        $vals[] = $_SERVER[$env] ?? 'na';
+      }
+      echo implode('|', $vals);
     space file.php: |
+      <?php
+      echo $_SERVER['SCRIPT_NAME'];
+    q?file.php:
       <?php
       echo $_SERVER['SCRIPT_NAME'];
 
@@ -46,6 +54,7 @@ services:
       scripts:
         - index.php
         - space file.php
+        - q?file.php
 
   httpd:
     requires: [fpm]
@@ -71,19 +80,25 @@ actions:
   - expect:
       service: httpd
       response:
-        body: /index.php
+        body: /index.php||na
   - request/httpd:
       path: /index.php/1 2 3
   - expect:
       service: httpd
       response:
-        body: /index.php
+        body: /index.php||/1 2 3
   - request/httpd:
       path: /space file.php
   - expect:
       service: httpd
       response:
         body: /space file.php
+  - request/httpd:
+      path: /q?file.php
+  - expect:
+      service: httpd
+      response:
+        status: 404
   - stop:
       when: always
   - parallel:
