@@ -35,6 +35,12 @@ resources:
     q?file.php:
       <?php
       echo $_SERVER['SCRIPT_NAME'];
+    q%3Ffile.php:
+      <?php
+      echo $_SERVER['SCRIPT_NAME'];
+    アダプタ.php:
+      <?php
+      echo $_SERVER['SCRIPT_NAME'];
 
 services:
   fpm:
@@ -55,6 +61,8 @@ services:
         - index.php
         - space file.php
         - q?file.php
+        - q%3Ffile.php
+        - アダプタ.php
 
   httpd:
     requires: [fpm]
@@ -82,6 +90,13 @@ actions:
       response:
         body: /index.php||na
   - request/httpd:
+      path: /index.php/pi?a=1&b=2
+      encode_path: false
+  - expect:
+      service: httpd
+      response:
+        body: /index.php|a=1&b=2|/pi
+  - request/httpd:
       path: /index.php/1 2 3
   - expect:
       service: httpd
@@ -93,6 +108,12 @@ actions:
       service: httpd
       response:
         body: /space file.php
+  - request/httpd:
+      path: /アダプタ.php
+  - expect:
+      service: httpd
+      response:
+        body: /アダプタ.php
   - request/httpd:
       path: /q?file.php
   - expect:
