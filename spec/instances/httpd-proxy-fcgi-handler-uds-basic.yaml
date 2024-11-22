@@ -39,12 +39,7 @@ services:
         php_ini:
           include: true
     resources:
-      scripts:
-        - index.php
-        - space file.php
-        - q?file.php
-        - q%3Ffile.php
-        - アダプタ.php
+      scripts: true
 
   httpd:
     requires: [fpm]
@@ -68,39 +63,33 @@ actions:
         - expect/httpd/server_start
   - request/httpd:
       path: /index.php
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         body: /index.php||na
   - request/httpd:
       path: /index.php/pi?a=1&b=2
       encode_path: false
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         body: /index.php|a=1&b=2|/pi
   - request/httpd:
       path: /index.php/1 2 3
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         body: /index.php||/1 2 3
   - request/httpd:
       path: /space file.php
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         body: /space file.php
   - request/httpd:
       path: /アダプタ.php
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         body: /アダプタ.php
   - request/httpd:
       path: /q?file.php
-  - expect:
-      service: httpd
+  - expect/httpd:
       response:
         status: 403
   - stop:
