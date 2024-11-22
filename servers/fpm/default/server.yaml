@@ -6,6 +6,7 @@ configs:
   fpm_conf:
     file: config/fpm.conf
     parameters:
+      address_type: net
       global_options:
         error_log: /dev/stderr
         #log_level: debug

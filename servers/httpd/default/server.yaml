@@ -7,6 +7,7 @@ configs:
     file: config/httpd.conf
     parameters:
       proxy_type: handler
+      address_type: net
 
 sandboxes:
   common:

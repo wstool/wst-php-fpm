@@ -1,11 +1,12 @@
-title: Apache httpd mod_proxy_fcgi SetHandler basic tests
+title: Apache httpd mod_proxy_fcgi SetHandler network basic tests
 
-name: httpd-proxy-fcgi-handler
+name: httpd-proxy-fcgi-handler-net
 
 description: |
-  Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios.
+  Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios. FPM
+  listens on IP address. 
 
-labels: [test, fcgi, httpd]
+labels: [test, fcgi, net, httpd]
 
 environments:
   local:
@@ -29,18 +30,10 @@ resources:
         $vals[] = $_SERVER[$env] ?? 'na';
       }
       echo implode('|', $vals);
-    space file.php: |
-      <?php
-      echo $_SERVER['SCRIPT_NAME'];
-    q?file.php:
-      <?php
-      echo $_SERVER['SCRIPT_NAME'];
-    q%3Ffile.php:
-      <?php
-      echo $_SERVER['SCRIPT_NAME'];
-    アダプタ.php:
-      <?php
-      echo $_SERVER['SCRIPT_NAME'];
+    space file.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    q?file.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    q%3Ffile.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    アダプタ.php: <?php echo $_SERVER['SCRIPT_NAME'];
 
 services:
   fpm:
@@ -119,7 +112,7 @@ actions:
   - expect:
       service: httpd
       response:
-        status: 404
+        status: 403
   - stop:
       when: always
   - parallel:
