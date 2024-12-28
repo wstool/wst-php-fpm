@@ -8,8 +8,8 @@ description: |
 abstract: true
 
 parameters:
-  proxy_type: handler
-  address_type: net
+  httpd_proxy_type: handler
+  httpd_address_type: net
 
 environments:
   local:
@@ -57,9 +57,9 @@ services:
       configs:
         httpd_conf:
           parameters:
-            address_type: {{ .Parameters.GetString "address_type" }}
+            address_type: '{{ .Parameters.GetString "httpd_address_type" }}'
             dest_service: fpm
-            proxy_type: {{ .Parameters.GetString "proxy_type" }}
+            proxy_type: '{{ .Parameters.GetString "httpd_proxy_type" }}'
     resources:
       scripts: true
 

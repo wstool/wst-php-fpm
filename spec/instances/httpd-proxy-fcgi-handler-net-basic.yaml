@@ -11,5 +11,5 @@ labels: [test, fcgi, net, httpd]
 extends:
   name: httpd-proxy-fcgi
   parameters:
-    proxy_type: handler
-    address_type: net
+    httpd_proxy_type: handler
+    httpd_address_type: net
