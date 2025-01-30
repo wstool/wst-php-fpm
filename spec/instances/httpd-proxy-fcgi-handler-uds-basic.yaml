@@ -12,4 +12,4 @@ extends:
   name: httpd-proxy-fcgi
   parameters:
     httpd_proxy_type: handler
-    httpd_address_type: uds
+    fpm_address_type: uds
