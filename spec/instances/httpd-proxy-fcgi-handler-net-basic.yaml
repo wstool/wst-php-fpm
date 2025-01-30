@@ -1,6 +1,6 @@
 title: Apache httpd mod_proxy_fcgi SetHandler network basic tests
 
-name: httpd-proxy-fcgi-handler-net
+name: httpd-proxy-fcgi-handler-net-basic
 
 description: |
   Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios. FPM

@@ -1,6 +1,6 @@
 title: Apache httpd mod_proxy_fcgi SetHandler UDS basic tests
 
-name: httpd-proxy-fcgi-handler-uds
+name: httpd-proxy-fcgi-handler-uds-basic
 
 description: |
   Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios. FPM

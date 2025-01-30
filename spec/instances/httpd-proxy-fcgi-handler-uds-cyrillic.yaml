@@ -1,0 +1,16 @@
+title: Apache httpd mod_proxy_fcgi SetHandler UDS basic tests
+
+name: httpd-proxy-fcgi-handler-uds-cyrillic
+
+description: |
+  Set of tests to verify httpd integration when SetHandler directive is used for PHP-FPM for basic scenarios with
+  cyrillic UDS name that FPM listens on.
+
+labels: [test, fcgi, uds, httpd]
+
+extends:
+  name: httpd-proxy-fcgi
+  parameters:
+    httpd_proxy_type: handler
+    fpm_address_type: uds
+    fpm_uds_name: cф
