@@ -1,0 +1,112 @@
+title: nginx fastcgi module basic tests
+
+name: nginx-fastcgi-basic-base
+
+description: |
+  Basic nginx FastCGI scenarios.
+
+abstract: true
+
+parameters:
+  fpm_address_type: net
+  fpm_uds_name: ""
+
+environments:
+  local:
+    ports:
+      start: 8525
+      end: 8529
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      $envs = ['SCRIPT_NAME', 'QUERY_STRING', 'PATH_INFO'];
+      $vals = [];
+      foreach ($envs as $env) {
+        $vals[] = $_SERVER[$env] ?? 'na';
+      }
+      echo implode('|', $vals);
+    space file.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    q?file.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    q%3Ffile.php: <?php echo $_SERVER['SCRIPT_NAME'];
+    アダプタ.php: <?php echo $_SERVER['SCRIPT_NAME'];
+
+services:
+  fpm:
+    server:
+      name: fpm
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            address_type: '{{ .Parameters.GetString "fpm_address_type" }}'
+            uds_name: '{{ .Parameters.GetString "fpm_uds_name" }}'
+            pool_options:
+              pm: static
+              pm.max_children: 2
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            upstream_address_type: '{{ .Parameters.GetString "fpm_address_type" }}'
+            upstream_uds_name: '{{ .Parameters.GetString "fpm_uds_name" }}'
+            dest_service: fpm
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        body: /index.php||
+  - request/nginx:
+      path: /index.php/pi?a=1&b=2
+      encode_path: false
+  - expect/nginx:
+      response:
+        body: /index.php|a=1&b=2|/pi
+  - request/nginx:
+      path: /index.php/1 2 3
+  - expect/nginx:
+      response:
+        body: /index.php||/1 2 3
+  - request/nginx:
+      path: /space file.php
+  - expect/nginx:
+      response:
+        body: /space file.php
+  - request/nginx:
+      path: /アダプタ.php
+  - expect/nginx:
+      response:
+        body: /アダプタ.php
+  - request/nginx:
+      path: /q?file.php
+  - expect/nginx:
+      response:
+        status: 200
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop

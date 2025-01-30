@@ -1,0 +1,13 @@
+title: Nginx fastcgi module network basic tests
+
+name: nginx-fastcgi-net-basic
+
+description: |
+  Set of tests to verify nginx integration with PHP-FPM for basic scenarios. FPM listens on IP address. 
+
+labels: [test, fcgi, net, nginx]
+
+extends:
+  name: nginx-fastcgi-basic-base
+  parameters:
+    fpm_address_type: net
