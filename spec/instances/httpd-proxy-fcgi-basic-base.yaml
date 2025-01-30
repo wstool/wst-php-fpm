@@ -77,6 +77,9 @@ actions:
       path: /index.php
   - expect/httpd:
       response:
+        # This is slight difference compare to nginx which always set PATH_INFO even to empty
+        # string if defined - it would be possible to achieve the same for httpd using
+        # ProxyFCGISetEnvIf but this should not be an issue.
         body: /index.php||na
   - request/httpd:
       path: /index.php/pi?a=1&b=2
@@ -103,6 +106,7 @@ actions:
       path: /q?file.php
   - expect/httpd:
       response:
+        # Another difference compare to nginx that can handle this
         status: 403
   - stop:
       when: always

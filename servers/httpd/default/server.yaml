@@ -7,7 +7,8 @@ configs:
     file: config/httpd.conf
     parameters:
       proxy_type: handler
-      address_type: net
+      upstream_address_type: net
+      upstream_uds_name: ""
 
 sandboxes:
   common:
