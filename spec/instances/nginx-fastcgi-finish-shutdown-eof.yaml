@@ -1,0 +1,113 @@
+title: nginx fastcgi module shutdown eof test
+
+name: nginx-fastcgi-finish-shutdown-eof
+
+description: |
+  Test for the issue with fastcgi_finish_request() behaviour that does not end requests with no body, allowing setting
+  response header for the next request. This was reported in https://github.com/php/php-src/pull/18516 .
+
+labels: [test, fcgi, net, nginx, bug]
+
+parameters:
+  fpm_address_type: net
+  fpm_uds_name: ""
+
+environments:
+  local:
+    ports:
+      start: 8525
+      end: 8529
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      // this is required to stop nginx from buffering the response (and otherwise this error doesn't happen)
+      header('X-Accel-Buffering: no');
+      register_shutdown_function(static function () {
+          register_shutdown_function(static function () {
+              // this is required, otherwise it won't happen
+              fastcgi_finish_request();
+      
+              // the "sleep" is what creates the issue. A usleep for a shorter amount of time seems to be enough though
+              sleep(1);
+      
+              // echoing arbitrary text with a space before any ":" will cause nginx to report:
+              // upstream sent invalid header: "a\x20..." while reading response header from upstream
+              // echo 'a b';
+              // outputting text that looks like a header, will set this as response header for the page we redirect to
+              echo 'X-Risky: yes';
+          });
+      });
+
+services:
+  fpm:
+    server:
+      name: fpm
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            address_type: net
+            pool_options:
+              pm: static
+              pm.max_children: 1
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            upstream_address_type: net
+            dest_service: fpm
+            worker_connections: 4
+            root_location_directives:
+              fastcgi_keep_conn: on
+
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        status: 200
+  - execute/nginx:
+      command: sleep 2
+  - expect/nginx:
+      response:
+        status: 200
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        status: 200
+  - not:
+      action:
+        expect/nginx:
+          response:
+            headers:
+              X-Risky: yes
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
+
