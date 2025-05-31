@@ -1,0 +1,82 @@
+title: Output FPM logging
+
+name: fpm-output-logging-limit-2048
+
+description: |
+  Test FPM output logging and zlog logic test for log_mimit 2048.
+
+labels: [test, log, error, nginx]
+
+environments:
+  local:
+    ports:
+      start: 8510
+      end: 8519
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      error_log(str_repeat('t', 4000));
+
+services:
+  fpm:
+    server:
+      name: fpm
+      parameters: {}
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            global_options:
+              error_log: /dev/stderr
+              log_limit: 2048
+            pool_options:
+              pm: dynamic
+              pm.max_children: 5
+              pm.start_servers: 1
+              pm.min_spare_servers: 1
+              pm.max_spare_servers: 5
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            dest_service: fpm
+            access_log: /dev/null
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        status: 200
+#  - expect/nginx:
+#      output:
+#        messages:
+#          - '{{- printf "NOTICE: PHP message: %s" (repeat 2023 "t") }}'
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
