@@ -67,6 +67,7 @@ services:
         fastcgi_params: {}
         nginx_conf:
           parameters:
+            https_listener: true
             upstream_address_type: net
             dest_service: fpm
             worker_connections: 4
