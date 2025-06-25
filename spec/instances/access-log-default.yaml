@@ -1,0 +1,87 @@
+title: access log default logging test
+
+name: access-log-default
+
+description: |
+  Basic access log test for default logging with specific format.
+
+labels: [test, access, log, nginx]
+
+environments:
+  local:
+    ports:
+      start: 8525
+      end: 8529
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      echo 'index';
+    other.php: |
+      <?php
+      echo 'other';
+
+services:
+  fpm:
+    server:
+      name: fpm
+      parameters: {}
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            global_options:
+              error_log: /dev/stderr
+              log_limit: 2048
+            pool_options:
+              pm: dynamic
+              pm.max_children: 5
+              pm.start_servers: 1
+              pm.min_spare_servers: 1
+              pm.max_spare_servers: 5
+              catch_workers_output: yes
+              access.log: /dev/stderr
+              access.format: "%m %r%Q%q %s"
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            dest_service: fpm
+            access_log: /dev/null
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        status: 200
+  - expect/fpm:
+      output:
+        messages:
+          - "GET /index.php 200"
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
