@@ -1,0 +1,117 @@
+title: status counter for processes too high
+
+name: status-procs-counter-keepalive
+
+description: |
+  Test scoreboard status total processes and some other get too high when using keep alive connection.
+
+labels: [test, fcgi, net, nginx]
+
+environments:
+  local:
+    ports:
+      start: 8525
+      end: 8529
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      echo "test";
+    status-poll.php: |
+      <?php
+      $start_time = microtime(true);
+      while (true) {
+        // Check if 3 seconds have passed
+        if (microtime(true) - $start_time > 3) {
+            break;
+        }
+        $json = file_get_contents("http://{{ (.Services.Find "nginx").PrivateAddress }}/status.php?json");
+        $result = json_decode($json);
+        if ($result->{"total processes"} > 100) {
+          echo "impossible value found!\n";
+          print_r($result);
+          echo "\n";
+          die();
+        }
+      }
+      echo "ok";
+
+
+timeouts:
+  action: 8000
+  actions: 20000
+
+services:
+  fpm:
+    server:
+      name: fpm
+      parameters: {}
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            pool_options:
+              pm: dynamic
+              pm.max_children: 10
+              pm.start_servers: 8
+              pm.min_spare_servers: 1
+              pm.max_spare_servers: 9
+              pm.status_path: /status.php
+              catch_workers_output: yes
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            dest_service: fpm
+            access_log: /dev/null
+            root_location_directives:
+              fastcgi_keep_conn: on
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - request/nginx:
+      path: /index.php
+  - expect:
+      service: nginx
+      response:
+        headers: {}
+        body: test
+  - parallel:
+      actions:
+        - bench/nginx:
+            path: /index.php
+            duration: 3000
+            frequency: 400
+        - request/nginx:
+            id: poll
+            path: /status-poll.php
+  - expect:
+      service: nginx
+      response:
+        request: poll
+        body: ok
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
+
+
