@@ -76,6 +76,8 @@ services:
 
     resources:
       scripts: true
+      certificates:
+        - local
 
 actions:
   - start

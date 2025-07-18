@@ -2,6 +2,58 @@ common:
   ports:
     start: 8500
     end: 8600
+  resources:
+    certificates:
+      local:
+        certificate: |
+          -----BEGIN CERTIFICATE-----
+          MIIDBTCCAe2gAwIBAgIUYg1gSm4jTZGGuphKVcaGlny8MCMwDQYJKoZIhvcNAQEL
+          BQAwFDESMBAGA1UEAwwJbG9jYWxob3N0MB4XDTI1MDcxODE4MTMwMVoXDTMwMDcx
+          NzE4MTMwMVowFDESMBAGA1UEAwwJbG9jYWxob3N0MIIBIjANBgkqhkiG9w0BAQEF
+          AAOCAQ8AMIIBCgKCAQEArjzlbJm1UKyLrh3R1uuXs6S4oAg8d2eLrbqkdJ8ZgQd3
+          /HSiI/WhSRhFmnuy69M4UBqVP7XaHu7hLZmyvBhXcHnQJK7agDSk8kiPvY4Z+4gs
+          SR9/KlKHA1j23NYf84mV2JqTGHjNKq428x+bTDBdk5ST7cApLtCDiGy+tAA7Y2m+
+          pTLYxrbbZg0cx+8AsxRfhxijQ3/9Q9T4Pc1h9a3b+YZfamN1WgSXCWShbuz35DBm
+          gdUSc8Lcas9XYOMgQyd5s5y2thuW0uNxmjAMW1NqDO6L2VOs30MKKbBryp0g/tuL
+          6VNQ3a8Bg7sonaNvfxidKj9530802zSHQFaQkZDNcQIDAQABo08wTTAsBgNVHREE
+          JTAjgglsb2NhbGhvc3SHBH8AAAGHEAAAAAAAAAAAAAAAAAAAAAEwHQYDVR0OBBYE
+          FCGYVOApdn8UAQ7RKD7ehJm97NilMA0GCSqGSIb3DQEBCwUAA4IBAQA+yUXmzYy1
+          0jEzr0IVCq5nrSnOr0T0rmJJp89O6/hWiAbuif9VkRhJd+f7zkMoaJB710CVyL3v
+          xysvjS2biLLeIUpqc1F2JTxVI3zCVmnqj3Zw7aKJpm0sZuRSZXbsjMtnc0D/f4C6
+          yjIyI/qZXy7jruXT8i2d5OFOoYaRpjVV9Em61R9ma1OWluZO4NdQJdBPcjGgQue8
+          +yHJ2dpB+nWJSaV9XxmL451sWkpZ9JCNFKtnj6WkK7kF+2Rb0GOSFJqctVgrdSK2
+          NP/mZ3Z3alUrdc+gI8LqmbVBkujuTqD8Af5W0E39jY818TFZr+XC2hpdWHSRsogT
+          vN4NsHcZwE03
+          -----END CERTIFICATE-----
+        private_key: |
+          -----BEGIN PRIVATE KEY-----
+          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuPOVsmbVQrIuu
+          HdHW65ezpLigCDx3Z4utuqR0nxmBB3f8dKIj9aFJGEWae7Lr0zhQGpU/tdoe7uEt
+          mbK8GFdwedAkrtqANKTySI+9jhn7iCxJH38qUocDWPbc1h/ziZXYmpMYeM0qrjbz
+          H5tMMF2TlJPtwCku0IOIbL60ADtjab6lMtjGtttmDRzH7wCzFF+HGKNDf/1D1Pg9
+          zWH1rdv5hl9qY3VaBJcJZKFu7PfkMGaB1RJzwtxqz1dg4yBDJ3mznLa2G5bS43Ga
+          MAxbU2oM7ovZU6zfQwopsGvKnSD+24vpU1DdrwGDuyido29/GJ0qP3nfTzTbNIdA
+          VpCRkM1xAgMBAAECggEADfefO5QHIHhdz8ofqhR433jRp7B+qmK6+XpYAxTwQ4iQ
+          p4SbrSQcYa09V9DZNbAuWDYypyi3MMTHo8hpocxAvCk4/yvOI7oJ9qB291l2vz66
+          BW2YhnvBoMonAJUgpWeZgxjXDak8vH0P4MWfRR2ubq1vKKn/aHuPbmZV6OeI2ziQ
+          Vb0Fu77nmpN35g5qLzkcEl7mMGvGLvpI6/2kfYGIq5L9DDFDyOhHIZlThI38wDMM
+          GqM0mAA87jPiZ3vSDSdnZOLtChEO68NHw53Osi1ZwJtPg7ApufSdgy0euxDsBRTo
+          QH9kxQN52ZpjwvCCOaGYXjfjheKZDBP6IbX7TAQGvQKBgQDhguOH2apL+T1eAZEW
+          l6YTUznlhYkIMiREhp/1qPPdLVTSTmha239Ge6369CAdHOeMlCdU2rDtC1hPX2tp
+          qhmBpdyhqKCMy/BKTgk+OblLT1cN/ufg7jbLjTXDymD9Moa/ekNGjSNBp1yBRTBp
+          oNyyqcK376lCB83Et9tIktGD5QKBgQDFy2Wlu7Vpj0y8RKkIwTti3+RJA2JtY15+
+          WjRAAqQ+4O+k0r4kGPmvVje6D+4Pe0gjV2BXEzJA7FYZAZtfcJd3eBKj6tNjjOYs
+          k87A6Qm5a2lx/ONQ4Tb08Iu7Z/mOWvi+/1t5t4am2uiLzk+Mbv3CNEuzTukxfH8q
+          spwuSWyinQKBgQCoOdT0TbrNTBOsYezS9rPMLMS+5Juxwn3tpKQFRVEOCLgC3rzY
+          Mm/Cq5bA44ZlUV+mLgsdMLrVSiZJp7vgKiU24v0wlzOVdLk/JPGeOr9wX7JoXWSr
+          FelIdYHLGdi6aQu+IT24jqbjXi8SvAN+eKLKoPsB7cXM3Tdx7VmmzOeAxQKBgFZd
+          YZzkQWo+L/tk34n7Fbsul7dpyuiIoxH4wSfR/3WVMg5+Fpgcb6mns92CZyhLZExK
+          Mr7SmvbOOyngEb+yofCAdWMtfe/R7g842uZQ2vYjeH9VNMx0ClMZVWoXFFicUFDV
+          n1OeVyU0IKYrB4ECVbseqo84vYnmGoDCTH/Jf63hAoGAGA16mvdz1QNya+fjcKLE
+          ynwBFONc0uw38z/Sh+1XImx7tCEPqQQ7SJRAjR0jl/2JlJVxOUyAFeOj3+5ziKDZ
+          cPwBZ6tVO9j0HDF9Jn1uGAJq9eZxxEtHUTIIVqN8Q808b0lSgmlHe/2ho7lViG0y
+          ZEH3uDg+2q99b7HhvdLd0qM=
+          -----END PRIVATE KEY-----
 
 local: {}
 
