@@ -73,7 +73,6 @@ services:
             worker_connections: 4
             root_location_directives:
               fastcgi_keep_conn: on
-
     resources:
       scripts: true
       certificates:
