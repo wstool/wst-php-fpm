@@ -4,7 +4,7 @@ name: nginx-fastcgi-finish-shutdown-eof
 
 description: |
   Test for the issue with fastcgi_finish_request() behaviour that does not end requests with no body, allowing setting
-  response header for the next request. This was reported in https://github.com/php/php-src/pull/18516 .
+  response header for the next request. This was reported in https://github.com/php/php-src/issues/18275 .
 
 labels: [test, fcgi, net, nginx, bug]
 
