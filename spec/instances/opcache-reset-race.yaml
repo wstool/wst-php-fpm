@@ -1,0 +1,88 @@
+title: Race condition crash when opcache_reset called
+
+name: opcache-reset-race
+
+description: |
+  Test for opcache reset crash reported in https://github.com/php/php-src/issues/14471 .
+
+labels: [test, opcache, nginx, bug]
+
+environments:
+  local:
+    ports:
+      start: 8525
+      end: 8529
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      class T {
+      }
+      
+      new T;
+      opcache_reset();
+
+services:
+  fpm:
+    server:
+      name: fpm
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            address_type: net
+            pool_options:
+              pm: static
+              pm.max_children: 10
+              catch_workers_output: yes
+        php_ini:
+          include: true
+          opcache.enable: on
+    resources:
+      scripts: true
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            upstream_address_type: net
+            dest_service: fpm
+    resources:
+      scripts: true
+      certificates:
+        - local
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - bench/nginx:
+      path: /index.php
+      duration: 3000
+      frequency: 400
+  - expect/nginx:
+      metrics:
+        rules:
+          - metric: Success
+            operator: eq
+            value: 1.0
+  - request/nginx:
+      path: /index.php
+  - expect/nginx:
+      response:
+        status: 200
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
