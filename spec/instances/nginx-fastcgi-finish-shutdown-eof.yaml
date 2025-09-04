@@ -86,16 +86,27 @@ actions:
         - expect/nginx/server_start
   - request/nginx:
       path: /index.php
+      scheme: https
+      tls:
+        ca_certificate: local
   - expect/nginx:
       response:
         status: 200
   - execute/nginx:
       command: sleep 2
+  - request/nginx:
+      path: /index.php
+      scheme: https
+      tls:
+        ca_certificate: local
   - expect/nginx:
       response:
         status: 200
   - request/nginx:
       path: /index.php
+      scheme: https
+      tls:
+        ca_certificate: local
   - expect/nginx:
       response:
         status: 200
