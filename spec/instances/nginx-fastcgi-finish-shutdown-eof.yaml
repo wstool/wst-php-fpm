@@ -68,6 +68,7 @@ services:
         nginx_conf:
           parameters:
             https_listener: true
+            http2: true
             upstream_address_type: net
             dest_service: fpm
             worker_connections: 4
@@ -87,6 +88,7 @@ actions:
   - request/nginx:
       path: /index.php
       scheme: https
+      protocols: [http2]
       tls:
         ca_certificate: local
   - expect/nginx:
@@ -97,6 +99,7 @@ actions:
   - request/nginx:
       path: /index.php
       scheme: https
+      protocols: [http2]
       tls:
         ca_certificate: local
   - expect/nginx:
@@ -105,6 +108,7 @@ actions:
   - request/nginx:
       path: /index.php
       scheme: https
+      protocols: [http2]
       tls:
         ca_certificate: local
   - expect/nginx:

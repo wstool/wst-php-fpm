@@ -25,4 +25,4 @@ spec:
       httpd_binary: /usr/local/apache2/bin/httpd
       httpd_modules: /usr/local/apache2/modules
       # Nginx params
-      nginx_binary: nginx
+      nginx_binary: /usr/local/nginx/sbin/nginx
