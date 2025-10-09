@@ -1,0 +1,107 @@
+title: Status retrieving using fpm_get_status for parallel requests
+
+name: status-get-parallel
+
+description: |
+  Test to make sure that there is no failure (segfault) in fpm_get_status when getting status in parallel from multiple
+  workers - making sure there is no race condition. This is to test fix for https://github.com/php/php-src/issues/19974.
+
+labels: [test, status, nginx]
+
+environments:
+  local:
+    ports:
+      start: 8510
+      end: 8519
+
+resources:
+  scripts:
+    index.php: |
+      <?php
+      print_r(fpm_get_status());
+
+services:
+  fpm:
+    server:
+      name: fpm
+      parameters: {}
+      configs:
+        fpm_conf:
+          include: true
+          parameters:
+            pool_options:
+              pm: dynamic
+              pm.max_children: 10
+              pm.start_servers: 8
+              pm.min_spare_servers: 1
+              pm.max_spare_servers: 9
+              pm.max_requests: 5
+        php_ini:
+          include: true
+    resources:
+      scripts: true
+
+  nginx:
+    requires: [fpm]
+    public: true
+    server:
+      name: nginx
+      configs:
+        fastcgi_params: {}
+        nginx_conf:
+          parameters:
+            dest_service: fpm
+            access_log: /dev/null
+    resources:
+      scripts: true
+
+actions:
+  - start
+  - parallel:
+      actions:
+        - expect/fpm/server_start
+        - expect/nginx/server_start
+  - parallel:
+      actions:
+        - bench/nginx:
+            id: b1
+            path: /index.php
+            duration: 3000
+            frequency: 400
+        - bench/nginx:
+            id: b2
+            path: /index.php
+            duration: 3000
+            frequency: 400
+  - expect:
+      service: nginx
+      metrics:
+        id: b1
+        rules:
+          - metric: Success
+            operator: eq
+            value: 1.0
+  - expect:
+      service: nginx
+      metrics:
+        id: b2
+        rules:
+          - metric: Success
+            operator: eq
+            value: 1.0
+  - not:
+      action:
+        expect/fpm:
+          timeout: 500
+          output:
+            match: regexp
+            render_template: false
+            messages:
+              - '.*SIGSEGV - core dump.*'
+  - stop:
+      when: always
+  - parallel:
+      when: always
+      actions:
+        - expect/fpm/server_stop
+        - expect/nginx/server_stop
